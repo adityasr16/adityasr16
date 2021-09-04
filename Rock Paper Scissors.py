@@ -27,7 +27,7 @@ def game(move_1,move_2):
         elif move_2 == "scissor":
             return (f"{player2} wins!")
     else:
-        return ("*warning* invalid input.It's a rock paper scissor game so enter either rock,paper or scissor ")
+        return ("*warning* invalid input.It's a rock-paper-scissor game, so enter either rock,paper or scissor ")
         
         sys.exit()
         
