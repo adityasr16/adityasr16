@@ -12,20 +12,20 @@ def game(move_1,move_2):
         return ("It's a tie")
     elif move_1 == "rock":
         if move_2 == "scissor":
-            return ("Player 1 wins!")
+            return (f"{Player1} wins!")
         elif move_2 == "paper":
-            return ("player 2 wins!")
+            return (f"{player2} wins!")
     elif move_1 == "scissor":
         if move_2 == "paper":
-            return ("player 1 wins!")
+            return (f"{player1} wins!")
         elif move_2 == "rock":
-            return ("player 2 wins!")
+            return (f"{player2} wins!")
         
     elif move_1 == "paper":
         if move_2 == "rock":
-            return ("player 1 wins!")
+            return (f"{player1} wins!")
         elif move_2 == "scissor":
-            return ("player 2 wins!")
+            return (f"{player2} wins!")
     else:
         return ("*warning* invalid input.It's a rock paper scissor game so enter either rock,paper or scissor ")
         
