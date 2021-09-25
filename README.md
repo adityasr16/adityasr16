@@ -1,7 +1,5 @@
 - 👋 Hi, I’m @adityasr16
-- 👀 I’m interested in Python,Machine Learning,Python Development 
-- 🌱 I’m currently learning everything I can in python,ML and will also be getting into web development a little bit
-- 💞️ I’m looking to collaborate on python and ML projects 
+
 - 📫 How to reach me Linkedin:https://www.linkedin.com/in/aditya-sarkar-152206190/
 Email:as6404359aditya@gmail.com
 
