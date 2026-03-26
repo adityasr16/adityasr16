@@ -9,24 +9,41 @@ import {
 import { COLORS } from "../constants";
 import { fontFamily } from "../fonts";
 
-const steps = [
+const signals = [
   {
     number: "01",
-    title: "Verify Privately",
-    description: "Your identity is verified on your phone.\nPassport data never leaves your device.",
+    title: "Link Accounts",
+    description: "Connect LinkedIn, Twitter, GitHub.\nA real digital footprint is hard to fake.",
     color: COLORS.primaryBlue,
+    iconType: "link",
   },
   {
     number: "02",
-    title: "Create Sticker",
-    description: "Generate a digital autograph — your\ncryptographic proof of approval.",
+    title: "Phone Verification",
+    description: "One phone, one account.\nRaises cost from $0 to $1-5 each.",
     color: COLORS.accentCyan,
+    iconType: "phone",
   },
   {
     number: "03",
-    title: "Scan & Verify",
-    description: "Anyone can verify your sticker\nwith the free NotBot app.",
+    title: "Liveness Check",
+    description: "Quick video check confirms\na real face in real time.",
     color: COLORS.accentGreen,
+    iconType: "camera",
+  },
+  {
+    number: "04",
+    title: "Social Vouching",
+    description: "Real humans vouch for each other.\nNetwork gets stronger with every user.",
+    color: COLORS.accentPurple,
+    iconType: "people",
+  },
+  {
+    number: "05",
+    title: "Behavioral Signals",
+    description: "Ongoing proof a real person\nis behind the account.",
+    color: COLORS.accentOrange,
+    iconType: "chart",
   },
 ];
 
@@ -40,7 +57,7 @@ export const HowItWorksScene: React.FC = () => {
   });
 
   // Connection line progress
-  const lineProgress = interpolate(frame, [60, 150], [0, 1], {
+  const lineProgress = interpolate(frame, [40, 200], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -72,52 +89,52 @@ export const HowItWorksScene: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 80,
+          top: 60,
           opacity: titleOpacity,
-          fontSize: 56,
+          fontSize: 52,
           fontWeight: 700,
           color: COLORS.white,
           fontFamily,
         }}
       >
-        How It <span style={{ color: COLORS.accentCyan }}>Works</span>
+        Five <span style={{ color: COLORS.accentCyan }}>Signals</span>
       </div>
 
-      {/* Steps */}
+      {/* Signals row */}
       <div
         style={{
           display: "flex",
-          gap: 60,
+          gap: 24,
           alignItems: "flex-start",
-          marginTop: 40,
+          marginTop: 60,
           position: "relative",
         }}
       >
         {/* Connection line behind cards */}
         <svg
-          width="1100"
+          width="1600"
           height="10"
           style={{
             position: "absolute",
-            top: 90,
-            left: 100,
+            top: 85,
+            left: 50,
             zIndex: 0,
           }}
         >
           <line
             x1="0"
             y1="5"
-            x2={1100 * lineProgress}
+            x2={1600 * lineProgress}
             y2="5"
             stroke={COLORS.accentCyan}
             strokeWidth="2"
             strokeDasharray="8 4"
-            opacity={0.5}
+            opacity={0.4}
           />
         </svg>
 
-        {steps.map((step, i) => {
-          const delay = 25 + i * 35;
+        {signals.map((signal, i) => {
+          const delay = 20 + i * 25;
           const cardSpring = spring({
             frame: frame - delay,
             fps,
@@ -130,7 +147,6 @@ export const HowItWorksScene: React.FC = () => {
             { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
           );
 
-          // Icon animations
           const iconBounce = spring({
             frame: frame - delay - 10,
             fps,
@@ -144,129 +160,77 @@ export const HowItWorksScene: React.FC = () => {
                 opacity: cardOpacity,
                 transform: `scale(${cardSpring})`,
                 backgroundColor: COLORS.cardBg,
-                border: `2px solid ${step.color}30`,
-                borderRadius: 24,
-                padding: "40px 50px",
-                width: 340,
+                border: `2px solid ${signal.color}30`,
+                borderRadius: 20,
+                padding: "30px 28px",
+                width: 280,
                 textAlign: "center",
                 zIndex: 1,
               }}
             >
-              {/* Step number */}
+              {/* Signal number */}
               <div
                 style={{
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: 700,
-                  color: step.color,
+                  color: signal.color,
                   fontFamily,
-                  marginBottom: 16,
+                  marginBottom: 12,
                   letterSpacing: "3px",
                 }}
               >
-                STEP {step.number}
+                SIGNAL {signal.number}
               </div>
 
               {/* Icon circle */}
               <div
                 style={{
-                  width: 90,
-                  height: 90,
+                  width: 70,
+                  height: 70,
                   borderRadius: "50%",
-                  backgroundColor: `${step.color}20`,
-                  border: `2px solid ${step.color}50`,
+                  backgroundColor: `${signal.color}20`,
+                  border: `2px solid ${signal.color}50`,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  margin: "0 auto 24px",
+                  margin: "0 auto 16px",
                   transform: `scale(${iconBounce})`,
                 }}
               >
-                <svg width="40" height="40" viewBox="0 0 40 40">
-                  {i === 0 && (
-                    // Phone icon
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                  {signal.iconType === "link" && (
                     <g>
-                      <rect
-                        x="10"
-                        y="4"
-                        width="20"
-                        height="32"
-                        rx="3"
-                        fill="none"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                      />
-                      <circle cx="20" cy="31" r="2" fill={step.color} />
-                      <line
-                        x1="15"
-                        y1="8"
-                        x2="25"
-                        y2="8"
-                        stroke={step.color}
-                        strokeWidth="1.5"
-                      />
+                      <path d="M13 19l-2 2a4 4 0 01-5.66-5.66l4-4a4 4 0 015.66 0" fill="none" stroke={signal.color} strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M19 13l2-2a4 4 0 015.66 5.66l-4 4a4 4 0 01-5.66 0" fill="none" stroke={signal.color} strokeWidth="2.5" strokeLinecap="round" />
                     </g>
                   )}
-                  {i === 1 && (
-                    // Stamp/sticker icon
+                  {signal.iconType === "phone" && (
                     <g>
-                      <rect
-                        x="6"
-                        y="6"
-                        width="28"
-                        height="28"
-                        rx="4"
-                        fill="none"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                      />
-                      <path
-                        d="M14 20 L18 25 L27 14"
-                        stroke={step.color}
-                        strokeWidth="3"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
+                      <rect x="9" y="4" width="14" height="24" rx="3" fill="none" stroke={signal.color} strokeWidth="2.5" />
+                      <circle cx="16" cy="24" r="1.5" fill={signal.color} />
+                      <line x1="13" y1="7" x2="19" y2="7" stroke={signal.color} strokeWidth="1.5" />
                     </g>
                   )}
-                  {i === 2 && (
-                    // Scan icon
+                  {signal.iconType === "camera" && (
                     <g>
-                      <path
-                        d="M6 14 L6 8 L14 8"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M26 8 L34 8 L34 14"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M34 26 L34 32 L26 32"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M14 32 L6 32 L6 26"
-                        stroke={step.color}
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="10"
-                        y1="20"
-                        x2="30"
-                        y2="20"
-                        stroke={step.color}
-                        strokeWidth="2"
-                      />
+                      <circle cx="16" cy="16" r="10" fill="none" stroke={signal.color} strokeWidth="2.5" />
+                      <circle cx="16" cy="16" r="4" fill="none" stroke={signal.color} strokeWidth="2" />
+                      <circle cx="16" cy="16" r="1.5" fill={signal.color} />
+                    </g>
+                  )}
+                  {signal.iconType === "people" && (
+                    <g>
+                      <circle cx="12" cy="10" r="4" fill="none" stroke={signal.color} strokeWidth="2" />
+                      <path d="M4 26c0-4 4-7 8-7s8 3 8 7" fill="none" stroke={signal.color} strokeWidth="2" />
+                      <circle cx="22" cy="10" r="3" fill="none" stroke={signal.color} strokeWidth="1.5" />
+                      <path d="M22 17c3 0 6 2 6 5" fill="none" stroke={signal.color} strokeWidth="1.5" />
+                    </g>
+                  )}
+                  {signal.iconType === "chart" && (
+                    <g>
+                      <rect x="4" y="20" width="5" height="8" rx="1" fill={signal.color} opacity={0.6} />
+                      <rect x="13.5" y="14" width="5" height="14" rx="1" fill={signal.color} opacity={0.8} />
+                      <rect x="23" y="8" width="5" height="20" rx="1" fill={signal.color} />
                     </g>
                   )}
                 </svg>
@@ -275,27 +239,27 @@ export const HowItWorksScene: React.FC = () => {
               {/* Title */}
               <div
                 style={{
-                  fontSize: 28,
+                  fontSize: 22,
                   fontWeight: 700,
                   color: COLORS.white,
                   fontFamily,
-                  marginBottom: 12,
+                  marginBottom: 8,
                 }}
               >
-                {step.title}
+                {signal.title}
               </div>
 
               {/* Description */}
               <div
                 style={{
-                  fontSize: 18,
+                  fontSize: 15,
                   color: COLORS.midGray,
                   fontFamily,
                   lineHeight: 1.5,
                   whiteSpace: "pre-line",
                 }}
               >
-                {step.description}
+                {signal.description}
               </div>
             </div>
           );
@@ -306,18 +270,19 @@ export const HowItWorksScene: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 80,
-          opacity: interpolate(frame, [160, 180], [0, 1], {
+          bottom: 60,
+          opacity: interpolate(frame, [180, 210], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),
-          fontSize: 26,
+          fontSize: 24,
           color: COLORS.accentCyan,
           fontFamily,
           fontWeight: 600,
         }}
       >
-        Math that AI can never fake.
+        Under 2 minutes for a real person. Economically unviable to fake at
+        scale.
       </div>
     </AbsoluteFill>
   );

@@ -10,9 +10,10 @@ import { COLORS } from "../constants";
 import { fontFamily } from "../fonts";
 
 const stats = [
-  { value: "50%", label: "of web traffic\nis bots", color: COLORS.accentRed },
-  { value: "$186B", label: "lost annually to\nbot attacks", color: COLORS.accentOrange },
-  { value: "1/3", label: "of bots are\nmalicious", color: COLORS.accentPurple },
+  { value: "51%", label: "Web traffic is bots.\nHumans are the minority.", color: COLORS.accentRed },
+  { value: "$50", label: "Cost to run a bot farm\nwith 1,000 fake accounts.", color: COLORS.accentOrange },
+  { value: "38M+", label: "People already seeking\nproof-of-personhood.", color: COLORS.accentPurple },
+  { value: "0", label: "CAPTCHAs that still work.\nAI beats them all.", color: COLORS.accentCyan },
 ];
 
 export const ProblemScene: React.FC = () => {
@@ -26,13 +27,6 @@ export const ProblemScene: React.FC = () => {
   const titleX = interpolate(frame, [0, 20], [-50, 0], {
     extrapolateRight: "clamp",
   });
-
-  // Warning icon pulse
-  const warningScale = interpolate(
-    frame % 40,
-    [0, 20, 40],
-    [1, 1.1, 1],
-  );
 
   return (
     <AbsoluteFill
@@ -78,51 +72,34 @@ export const ProblemScene: React.FC = () => {
           display: "flex",
           alignItems: "center",
           gap: 20,
-          marginBottom: 60,
+          marginBottom: 50,
         }}
       >
-        <div style={{ transform: `scale(${warningScale})` }}>
-          <svg width="60" height="60" viewBox="0 0 60 60">
-            <path
-              d="M30 5 L55 50 L5 50 Z"
-              fill={COLORS.accentRed}
-              opacity={0.9}
-            />
-            <text
-              x="30"
-              y="44"
-              textAnchor="middle"
-              fill={COLORS.white}
-              fontSize="28"
-              fontWeight="bold"
-            >
-              !
-            </text>
-          </svg>
-        </div>
         <div
           style={{
-            fontSize: 56,
+            fontSize: 52,
             fontWeight: 700,
             color: COLORS.white,
             fontFamily,
           }}
         >
-          The Bot <span style={{ color: COLORS.accentRed }}>Problem</span>
+          The internet's trust layer is{" "}
+          <span style={{ color: COLORS.accentRed }}>broken</span>.
         </div>
       </div>
 
-      {/* Stats cards */}
+      {/* Stats grid - 2x2 */}
       <div
         style={{
           display: "flex",
-          gap: 40,
+          flexWrap: "wrap",
+          gap: 32,
           justifyContent: "center",
-          marginTop: 40,
+          marginTop: 20,
         }}
       >
         {stats.map((stat, i) => {
-          const delay = 30 + i * 20;
+          const delay = 25 + i * 18;
           const cardScale = spring({
             frame: frame - delay,
             fps,
@@ -142,27 +119,26 @@ export const ProblemScene: React.FC = () => {
                 backgroundColor: COLORS.cardBg,
                 border: `2px solid ${stat.color}40`,
                 borderRadius: 24,
-                padding: "50px 60px",
+                padding: "40px 50px",
                 textAlign: "center",
-                flex: 1,
-                maxWidth: 400,
+                width: 380,
               }}
             >
               <div
                 style={{
-                  fontSize: 80,
+                  fontSize: 72,
                   fontWeight: 800,
                   color: stat.color,
                   fontFamily,
                   lineHeight: 1,
-                  marginBottom: 16,
+                  marginBottom: 12,
                 }}
               >
                 {stat.value}
               </div>
               <div
                 style={{
-                  fontSize: 24,
+                  fontSize: 20,
                   color: COLORS.midGray,
                   fontFamily,
                   lineHeight: 1.4,
@@ -174,35 +150,6 @@ export const ProblemScene: React.FC = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* Bottom text */}
-      <div
-        style={{
-          marginTop: 60,
-          textAlign: "center",
-          opacity: interpolate(frame, [120, 140], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          }),
-        }}
-      >
-        <div
-          style={{
-            fontSize: 28,
-            color: COLORS.midGray,
-            fontFamily,
-          }}
-        >
-          Traditional CAPTCHAs{" "}
-          <span style={{ color: COLORS.accentRed, fontWeight: 600 }}>
-            frustrate users
-          </span>{" "}
-          & bots{" "}
-          <span style={{ color: COLORS.accentRed, fontWeight: 600 }}>
-            easily bypass them
-          </span>
-        </div>
       </div>
     </AbsoluteFill>
   );

@@ -23,22 +23,22 @@ export const SCENE_DURATIONS = {
   intro: 5 * FPS,        // 5 seconds
   problem: 7 * FPS,      // 7 seconds
   solution: 6 * FPS,     // 6 seconds
-  howItWorks: 8 * FPS,   // 8 seconds
-  importance: 7 * FPS,   // 7 seconds
+  howItWorks: 10 * FPS,  // 10 seconds (5 signals need more time)
+  importance: 8 * FPS,   // 8 seconds
   cta: 5 * FPS,          // 5 seconds
 };
 
 // Voiceover scripts for each scene
 export const VOICEOVER_SCRIPTS = {
   intro:
-    "Introducing NotBot. Cryptographic proof that you are human. In a world increasingly dominated by AI and bots, how do you prove you're real?",
+    "51 percent of the web is already not you. Bots now outnumber humans online for the first time in history.",
   problem:
-    "Bots now account for nearly half of all internet traffic, and one third of those are malicious. Businesses lose over 186 billion dollars annually to bot attacks. Deepfakes can impersonate anyone. Traditional CAPTCHAs frustrate users and sophisticated bots can easily bypass them.",
+    "The internet's trust layer is broken. Bot farms cost just 50 dollars for a thousand fake accounts. Over 38 million people are already seeking proof-of-personhood verification. And zero CAPTCHAs still work — AI solves them faster than humans.",
   solution:
-    "NotBot takes a fundamentally different approach. Instead of trying to detect bots, NotBot provides cryptographic proof of human identity. A digital signature that verifies a real person stands behind the content.",
+    "NotBot takes a different approach. Five lightweight signals that together are economically unviable to fake at scale. No government ID. No special hardware. Under 2 minutes for a real person.",
   howItWorks:
-    "Here's how it works. Step one: Verify your identity privately on your phone. Your passport data stays only on your device. Step two: Create a NotBot sticker, your digital autograph proving you approved the content. Step three: Anyone can verify your sticker by scanning it with the free NotBot app. It's math that AI can never fake.",
+    "Link your existing accounts to verify a real digital footprint. One phone number, one account — raising the cost of fakes. A quick liveness check confirms a real face. Social vouching creates scarcity and accountability. And behavioral consistency catches compromised accounts over time.",
   importance:
-    "Why does human verification matter? It protects against deepfakes and impersonation. It builds trust in online communication. It preserves privacy because your data never leaves your phone. And it ensures authenticity in an AI-driven world where anyone can generate anything.",
-  cta: "NotBot. Human to Human, Online. Visit notbot.id to get verified today. Because in the age of AI, being provably human is your greatest asset.",
+    "The law is forcing this globally. India's IT Rules are already live with mandatory AI labelling. The EU AI Act hits full enforcement in August 2026. And 72 countries now have active AI policies. Every one of these laws requires platforms to distinguish real humans from AI.",
+  cta: "Be one of the Founding 100. The first verified humans get permanent founding member status, root node weight, and lifetime free access. The internet needs a human layer. Visit notbot.id.",
 };

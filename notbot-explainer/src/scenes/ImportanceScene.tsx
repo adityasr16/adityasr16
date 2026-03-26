@@ -9,30 +9,38 @@ import {
 import { COLORS } from "../constants";
 import { fontFamily } from "../fonts";
 
-const reasons = [
+const regulations = [
   {
-    icon: "shield",
-    title: "Deepfake Protection",
-    desc: "Proves identity when AI can clone anyone",
+    flag: "IN",
+    region: "India",
+    status: "LIVE NOW",
+    statusColor: COLORS.accentGreen,
+    detail: "Mandatory AI labelling & 3hr deepfake takedowns",
+    color: COLORS.accentOrange,
+  },
+  {
+    flag: "EU",
+    region: "EU AI Act",
+    status: "AUG 2026",
+    statusColor: COLORS.accentCyan,
+    detail: "Full enforcement. Bot disclosure & deepfake labelling",
     color: COLORS.primaryBlue,
   },
   {
-    icon: "lock",
-    title: "Privacy First",
-    desc: "Your data never leaves your phone",
-    color: COLORS.accentGreen,
-  },
-  {
-    icon: "trust",
-    title: "Build Trust Online",
-    desc: "Verified humans, authentic interactions",
-    color: COLORS.accentCyan,
-  },
-  {
-    icon: "globe",
-    title: "AI-Ready Future",
-    desc: "Authenticity in a world of generated content",
+    flag: "UN",
+    region: "CoE Treaty",
+    status: "RATIFYING",
+    statusColor: COLORS.accentPurple,
+    detail: "US, UK, EU, Israel + 5 nations. Binding AI rules",
     color: COLORS.accentPurple,
+  },
+  {
+    flag: "72",
+    region: "Countries",
+    status: "ACCELERATING",
+    statusColor: COLORS.accentOrange,
+    detail: "Active AI policies. 21.3% rise in AI legislation",
+    color: COLORS.accentRed,
   },
 ];
 
@@ -41,6 +49,12 @@ export const ImportanceScene: React.FC = () => {
   const { fps } = useVideoConfig();
 
   const titleOpacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  // Bottom summary text
+  const summaryOpacity = interpolate(frame, [140, 170], [0, 1], {
+    extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
@@ -69,28 +83,28 @@ export const ImportanceScene: React.FC = () => {
         style={{
           opacity: titleOpacity,
           textAlign: "center",
-          marginTop: 80,
-          fontSize: 56,
+          marginTop: 70,
+          fontSize: 52,
           fontWeight: 700,
           color: COLORS.white,
           fontFamily,
         }}
       >
-        Why <span style={{ color: COLORS.accentPurple }}>Human Verification</span> Matters
+        The law is forcing this.{" "}
+        <span style={{ color: COLORS.accentPurple }}>Globally.</span>
       </div>
 
-      {/* Cards grid */}
+      {/* Regulation cards */}
       <div
         style={{
           display: "flex",
-          flexWrap: "wrap",
-          gap: 40,
+          gap: 32,
           justifyContent: "center",
-          padding: "60px 120px",
+          padding: "50px 80px",
           marginTop: 20,
         }}
       >
-        {reasons.map((reason, i) => {
+        {regulations.map((reg, i) => {
           const delay = 20 + i * 20;
           const cardSpring = spring({
             frame: frame - delay,
@@ -111,87 +125,108 @@ export const ImportanceScene: React.FC = () => {
                 opacity: cardOpacity,
                 transform: `scale(${cardSpring})`,
                 backgroundColor: COLORS.cardBg,
-                border: `1px solid ${reason.color}30`,
+                border: `1px solid ${reg.color}30`,
                 borderRadius: 20,
-                padding: "40px 48px",
-                width: 380,
+                padding: "36px 32px",
+                width: 360,
                 display: "flex",
-                alignItems: "flex-start",
-                gap: 20,
+                flexDirection: "column",
+                gap: 16,
               }}
             >
-              {/* Icon */}
+              {/* Flag/region icon */}
               <div
                 style={{
                   width: 56,
                   height: 56,
                   borderRadius: 14,
-                  backgroundColor: `${reason.color}20`,
+                  backgroundColor: `${reg.color}20`,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  flexShrink: 0,
+                  fontSize: 24,
+                  fontWeight: 800,
+                  color: reg.color,
+                  fontFamily,
                 }}
               >
-                <svg width="28" height="28" viewBox="0 0 28 28">
-                  {reason.icon === "shield" && (
-                    <path
-                      d="M14 2 L24 7 L24 14 C24 20 19 25 14 26 C9 25 4 20 4 14 L4 7 Z"
-                      fill="none"
-                      stroke={reason.color}
-                      strokeWidth="2"
-                    />
-                  )}
-                  {reason.icon === "lock" && (
-                    <g>
-                      <rect x="6" y="12" width="16" height="12" rx="2" fill="none" stroke={reason.color} strokeWidth="2" />
-                      <path d="M9 12 L9 8 C9 5 11 3 14 3 C17 3 19 5 19 8 L19 12" fill="none" stroke={reason.color} strokeWidth="2" />
-                      <circle cx="14" cy="18" r="2" fill={reason.color} />
-                    </g>
-                  )}
-                  {reason.icon === "trust" && (
-                    <g>
-                      <circle cx="14" cy="10" r="5" fill="none" stroke={reason.color} strokeWidth="2" />
-                      <path d="M5 24 C5 19 9 16 14 16 C19 16 23 19 23 24" fill="none" stroke={reason.color} strokeWidth="2" />
-                      <path d="M11 21 L13 23 L18 17" stroke={reason.color} strokeWidth="2" fill="none" strokeLinecap="round" />
-                    </g>
-                  )}
-                  {reason.icon === "globe" && (
-                    <g>
-                      <circle cx="14" cy="14" r="11" fill="none" stroke={reason.color} strokeWidth="2" />
-                      <ellipse cx="14" cy="14" rx="5" ry="11" fill="none" stroke={reason.color} strokeWidth="1.5" />
-                      <line x1="3" y1="14" x2="25" y2="14" stroke={reason.color} strokeWidth="1.5" />
-                    </g>
-                  )}
-                </svg>
+                {reg.flag}
               </div>
 
-              <div>
-                <div
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 700,
-                    color: COLORS.white,
-                    fontFamily,
-                    marginBottom: 8,
-                  }}
-                >
-                  {reason.title}
-                </div>
-                <div
-                  style={{
-                    fontSize: 18,
-                    color: COLORS.midGray,
-                    fontFamily,
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {reason.desc}
-                </div>
+              {/* Region name */}
+              <div
+                style={{
+                  fontSize: 26,
+                  fontWeight: 700,
+                  color: COLORS.white,
+                  fontFamily,
+                }}
+              >
+                {reg.region}
+              </div>
+
+              {/* Status badge */}
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignSelf: "flex-start",
+                  backgroundColor: `${reg.statusColor}20`,
+                  border: `1px solid ${reg.statusColor}50`,
+                  borderRadius: 8,
+                  padding: "6px 14px",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: reg.statusColor,
+                  fontFamily,
+                  letterSpacing: "1px",
+                }}
+              >
+                {reg.status}
+              </div>
+
+              {/* Detail */}
+              <div
+                style={{
+                  fontSize: 17,
+                  color: COLORS.midGray,
+                  fontFamily,
+                  lineHeight: 1.4,
+                }}
+              >
+                {reg.detail}
               </div>
             </div>
           );
         })}
+      </div>
+
+      {/* Bottom summary */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 70,
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          opacity: summaryOpacity,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 24,
+            color: COLORS.midGray,
+            fontFamily,
+            maxWidth: 1000,
+            margin: "0 auto",
+            lineHeight: 1.5,
+          }}
+        >
+          Every one of these laws requires platforms to{" "}
+          <span style={{ color: COLORS.accentPurple, fontWeight: 600 }}>
+            distinguish real humans from AI
+          </span>
+          . The infrastructure doesn't exist yet.
+        </div>
       </div>
     </AbsoluteFill>
   );
