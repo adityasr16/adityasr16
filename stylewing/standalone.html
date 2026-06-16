@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>StyleWing — standalone</title>
+<style>
+  :root { --bg:#080808; --card:#18181b; --border:#27272a; --muted:#a1a1aa; --p1:#8B5CF6; --p2:#3B82F6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:480px; margin:0 auto; padding:16px 16px 80px; }
+  .logo { display:flex; align-items:center; gap:8px; justify-content:center; margin:18px 0 6px; }
+  .logo .mark { width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--p1),var(--p2)); display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .logo h1 { font-size:22px; margin:0; letter-spacing:-.3px; }
+  .sub { text-align:center; color:var(--muted); font-size:13px; margin:0 0 18px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px; }
+  label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; }
+  input[type=password], input[type=text], textarea { width:100%; background:#0f0f11; border:1px solid var(--border); border-radius:12px; padding:12px; color:#fff; font-size:14px; outline:none; resize:none; }
+  input:focus, textarea:focus { border-color:var(--p1); }
+  .row { display:flex; gap:8px; }
+  button { cursor:pointer; border:none; border-radius:12px; font-size:14px; font-weight:600; padding:12px 14px; color:#fff; transition:transform .1s, background .2s; }
+  button:active { transform:scale(.97); }
+  button:disabled { opacity:.4; cursor:not-allowed; }
+  .btn-primary { background:linear-gradient(90deg,var(--p1),var(--p2)); width:100%; padding:15px; font-size:15px; }
+  .btn-ghost { background:#27272a; flex:1; }
+  .tabs { display:flex; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:4px; margin-bottom:14px; }
+  .tabs button { flex:1; background:transparent; color:var(--muted); padding:10px; }
+  .tabs button.active { background:linear-gradient(90deg,var(--p1),var(--p2)); color:#fff; }
+  .preview { width:100%; aspect-ratio:3/4; background:#0f0f11; border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; align-items:center; justify-content:center; color:#52525b; font-size:13px; margin-bottom:12px; }
+  .preview img { width:100%; height:100%; object-fit:cover; }
+  .hidden { display:none; }
+  .chip { display:inline-block; padding:5px 11px; border-radius:999px; background:#0f0f11; border:1px solid var(--border); color:var(--muted); font-size:13px; margin:0 6px 6px 0; cursor:pointer; }
+  .chip.active { border-color:var(--p2); color:#93c5fd; background:rgba(59,130,246,.12); }
+  .item { background:#0f0f11; border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:10px; }
+  .item .name { font-weight:600; }
+  .item .desc { color:var(--muted); font-size:13px; margin-top:2px; }
+  .store { display:inline-block; font-size:12px; font-weight:600; padding:6px 10px; border-radius:9px; margin:6px 6px 0 0; text-decoration:none; border:1px solid; }
+  .opener { border-radius:14px; padding:14px; margin-bottom:10px; border:1px solid; }
+  .opener .txt { font-weight:500; font-size:15px; }
+  .opener .meta { font-size:12px; margin-top:6px; }
+  .spk { float:right; width:34px; height:34px; border-radius:50%; background:#27272a; font-size:15px; padding:0; }
+  .warn { font-size:11px; color:#fbbf24; margin-top:8px; line-height:1.45; }
+  .err { background:rgba(239,68,68,.12); border:1px solid #7f1d1d; color:#fca5a5; border-radius:12px; padding:12px; font-size:13px; text-align:center; }
+  .spin { display:inline-block; width:18px; height:18px; border:2px solid #3f3f46; border-top-color:var(--p1); border-radius:50%; animation:s 0.8s linear infinite; vertical-align:middle; }
+  @keyframes s { to { transform:rotate(360deg); } }
+  .center { text-align:center; color:var(--muted); font-size:14px; padding:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><div class="mark">✦</div><h1>StyleWing</h1></div>
+  <p class="sub">Outfit finder + wingman · standalone test build</p>
+
+  <!-- API key -->
+  <div class="card">
+    <label>Anthropic API key</label>
+    <div class="row">
+      <input id="key" type="password" placeholder="sk-ant-..." autocomplete="off" />
+      <button class="btn-ghost" id="saveKey" style="flex:0 0 auto;">Save</button>
+    </div>
+    <p class="warn">Stored only in this browser and sent straight to Anthropic. Fine for your own testing — do NOT host this file publicly with a key in it, the key would be exposed. Get a key at console.anthropic.com → API Keys.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button id="tabOutfit" class="active" onclick="setTab('outfit')">👕 Outfit</button>
+    <button id="tabWing" onclick="setTab('wing')">🎯 Wingman</button>
+  </div>
+
+  <!-- OUTFIT -->
+  <div id="panelOutfit">
+    <div class="preview" id="outfitPreview"><span>Take or choose a photo of an outfit</span></div>
+    <div class="row" style="margin-bottom:12px;">
+      <button class="btn-ghost" onclick="document.getElementById('outfitCam').click()">Take photo</button>
+      <button class="btn-ghost" onclick="document.getElementById('outfitFile').click()">Choose file</button>
+    </div>
+    <input id="outfitCam" class="hidden" type="file" accept="image/*" capture="environment" />
+    <input id="outfitFile" class="hidden" type="file" accept="image/*" />
+    <div id="outfitOut"></div>
+  </div>
+
+  <!-- WINGMAN -->
+  <div id="panelWing" class="hidden">
+    <div class="card">
+      <label>The situation</label>
+      <div id="presets" style="margin-bottom:10px;"></div>
+      <textarea id="wingCtx" rows="4" placeholder="Where are you, what's happening, any shared context..."></textarea>
+      <button class="btn-primary" style="margin-top:12px;" id="wingGo">Get openers</button>
+    </div>
+    <div id="wingOut"></div>
+  </div>
+</div>
+
+<script type="module">
+import Anthropic from "https://esm.sh/@anthropic-ai/sdk@0.54.0";
+
+// Best accuracy. For a high-volume free app, "claude-sonnet-4-6" is ~half the cost/latency.
+const MODEL = "claude-opus-4-8";
+
+const STORES = [
+  { store:"Amazon", base:"https://www.amazon.com/s?k=", color:"#FF9900" },
+  { store:"ASOS",   base:"https://www.asos.com/search/?q=", color:"#bdbdbd" },
+  { store:"H&M",    base:"https://www2.hm.com/en_us/search-results.html?q=", color:"#E50010" },
+  { store:"Zara",   base:"https://www.zara.com/us/en/search?searchTerm=", color:"#e5e5e5" },
+  { store:"Depop",  base:"https://www.depop.com/search/?q=", color:"#ff5a4d" },
+];
+const PRESETS = ["Coffee shop","At a gym","Book store","Dog park","Bar / night out","On campus"];
+
+const $ = id => document.getElementById(id);
+let keyVal = localStorage.getItem("sw_key") || "";
+$("key").value = keyVal;
+
+$("saveKey").onclick = () => {
+  keyVal = $("key").value.trim();
+  localStorage.setItem("sw_key", keyVal);
+  $("saveKey").textContent = "Saved ✓";
+  setTimeout(() => $("saveKey").textContent = "Save", 1500);
+};
+
+window.setTab = t => {
+  $("panelOutfit").classList.toggle("hidden", t !== "outfit");
+  $("panelWing").classList.toggle("hidden", t !== "wing");
+  $("tabOutfit").classList.toggle("active", t === "outfit");
+  $("tabWing").classList.toggle("active", t === "wing");
+};
+
+function client() {
+  if (!keyVal) { alert("Paste your Anthropic API key first."); return null; }
+  return new Anthropic({ apiKey: keyVal, dangerouslyAllowBrowser: true });
+}
+
+function extractJSON(text) {
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error("No JSON in response");
+  return JSON.parse(m[0]);
+}
+
+function fileToImage(file) {
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onload = e => res({ dataUrl: e.target.result, base64: e.target.result.split(",")[1], mime: file.type || "image/jpeg" });
+    r.readAsDataURL(file);
+  });
+}
+
+// ---------- OUTFIT ----------
+async function runOutfit(img) {
+  $("outfitPreview").innerHTML = `<img src="${img.dataUrl}" />`;
+  $("outfitOut").innerHTML = `<div class="center"><span class="spin"></span> Identifying the fit…</div>`;
+  try {
+    const c = client(); if (!c) { $("outfitOut").innerHTML = ""; return; }
+    const prompt = `Analyze this outfit image. Identify every visible clothing item and accessory.
+Return ONLY valid JSON: {"items":[{"name":"oversized white tee","description":"loose white t-shirt","color":"white","category":"tops","searchTerms":["oversized white tee","baggy white t-shirt streetwear"]}],"overallStyle":"streetwear","vibeWords":["relaxed","clean","minimal"]}
+Rules: 2-3 shopping search terms per item; overallStyle one phrase; vibeWords exactly 3; empty items array if no outfit visible.`;
+    const resp = await c.messages.create({
+      model: MODEL, max_tokens: 1500,
+      messages: [{ role:"user", content:[
+        { type:"image", source:{ type:"base64", media_type: img.mime, data: img.base64 } },
+        { type:"text", text: prompt },
+      ]}],
+    });
+    const text = resp.content.find(b => b.type === "text")?.text || "";
+    renderOutfit(extractJSON(text));
+  } catch (e) {
+    $("outfitOut").innerHTML = `<div class="err">${e.message || "Something went wrong"}</div>`;
+  }
+}
+
+function renderOutfit(a) {
+  if (!a.items || !a.items.length) { $("outfitOut").innerHTML = `<div class="center">No outfit detected. Try another photo.</div>`; return; }
+  let html = `<div class="item"><div class="name">${a.overallStyle || ""}</div><div style="margin-top:6px;">${(a.vibeWords||[]).map(w=>`<span class="chip">${w}</span>`).join("")}</div></div>`;
+  for (const it of a.items) {
+    const q = encodeURIComponent((it.searchTerms||[it.name]).slice(0,3).join(" "));
+    const links = STORES.map(s => `<a class="store" style="border-color:${s.color}55;color:${s.color}" href="${s.base}${q}" target="_blank" rel="noopener">${s.store} →</a>`).join("");
+    html += `<div class="item"><div class="name">${it.name}</div><div class="desc">${it.description||""}</div><div style="margin-top:8px;">${links}</div></div>`;
+  }
+  $("outfitOut").innerHTML = html;
+}
+
+$("outfitCam").onchange = async e => { if (e.target.files[0]) runOutfit(await fileToImage(e.target.files[0])); };
+$("outfitFile").onchange = async e => { if (e.target.files[0]) runOutfit(await fileToImage(e.target.files[0])); };
+
+// ---------- WINGMAN ----------
+const presetBox = $("presets");
+PRESETS.forEach(p => {
+  const el = document.createElement("span");
+  el.className = "chip"; el.textContent = p;
+  el.onclick = () => { $("wingCtx").value = p; document.querySelectorAll("#presets .chip").forEach(c=>c.classList.remove("active")); el.classList.add("active"); };
+  presetBox.appendChild(el);
+});
+
+$("wingGo").onclick = async () => {
+  const ctx = $("wingCtx").value.trim();
+  if (!ctx) { alert("Describe the situation first."); return; }
+  $("wingOut").innerHTML = `<div class="center"><span class="spin"></span> Reading the room…</div>`;
+  try {
+    const c = client(); if (!c) { $("wingOut").innerHTML = ""; return; }
+    const prompt = `You are a sharp, socially intelligent wingman. Generate natural conversation openers based ONLY on observable, shared context — never on anyone's identity.
+Context: "${ctx}"
+Return ONLY valid JSON: {"situationRead":"one sentence","openers":[{"text":"the exact thing to say","hook":"why it works","energy":"playful"}]}
+Rules: exactly 5 openers; energy one of playful|genuine|curious, mixed; under 20 words each; no cheesy pickup lines.`;
+    const resp = await c.messages.create({
+      model: MODEL, max_tokens: 1000,
+      messages: [{ role:"user", content: prompt }],
+    });
+    const text = resp.content.find(b => b.type === "text")?.text || "";
+    renderWing(extractJSON(text));
+  } catch (e) {
+    $("wingOut").innerHTML = `<div class="err">${e.message || "Something went wrong"}</div>`;
+  }
+};
+
+const ENERGY = { playful:["#facc15","rgba(250,204,21,.1)"], genuine:["#34d399","rgba(52,211,153,.1)"], curious:["#60a5fa","rgba(96,165,250,.1)"] };
+function speak(t){ if(window.speechSynthesis){ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.rate=.95; speechSynthesis.speak(u);} }
+window.__speak = speak;
+
+function renderWing(a) {
+  let html = `<div class="item"><div class="desc" style="color:#fff;">${a.situationRead||""}</div></div>`;
+  (a.openers||[]).forEach(o => {
+    const [c,bg] = ENERGY[o.energy] || ENERGY.genuine;
+    html += `<div class="opener" style="border-color:${c}44;background:${bg}">
+      <button class="spk" onclick="window.__speak(${JSON.stringify(o.text)})">🔊</button>
+      <div class="txt">“${o.text}”</div>
+      <div class="meta" style="color:${c}">${o.energy} · <span style="color:var(--muted)">${o.hook||""}</span></div></div>`;
+  });
+  $("wingOut").innerHTML = html;
+}
+</script>
+</body>
+</html>

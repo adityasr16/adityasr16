@@ -16,9 +16,13 @@ function buildStoreLinks(searchTerms: string[]) {
   return STORES.map(({ store, base, color }) => ({ store, url: base + query, color }))
 }
 
+// Best identification accuracy. For a high-volume free app, switching to
+// 'claude-sonnet-4-6' roughly halves cost/latency at slightly lower quality.
+const MODEL = 'claude-opus-4-8'
+
 export async function analyzeOutfit(imageBase64: string, mimeType: string): Promise<OutfitAnalysis> {
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: MODEL,
     max_tokens: 1500,
     messages: [
       {
@@ -122,7 +126,7 @@ Rules:
   })
 
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: MODEL,
     max_tokens: 1000,
     messages: [{ role: 'user', content: contentParts }],
   })
