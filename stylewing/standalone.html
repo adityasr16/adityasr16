@@ -76,6 +76,7 @@
     </div>
     <input id="outfitCam" class="hidden" type="file" accept="image/*" capture="environment" />
     <input id="outfitFile" class="hidden" type="file" accept="image/*" />
+    <div style="text-align:center;margin-bottom:8px;"><a href="#" id="sampleOutfit" style="color:#71717a;font-size:12px;text-decoration:underline;">✨ See an example result</a></div>
     <div id="outfitOut"></div>
   </div>
 
@@ -87,6 +88,7 @@
       <textarea id="wingCtx" rows="4" placeholder="Where are you, what's happening, any shared context..."></textarea>
       <button class="btn-primary" style="margin-top:12px;" id="wingGo">Get openers</button>
     </div>
+    <div style="text-align:center;margin-bottom:8px;"><a href="#" id="sampleWing" style="color:#71717a;font-size:12px;text-decoration:underline;">✨ See an example</a></div>
     <div id="wingOut"></div>
   </div>
 </div>
@@ -105,6 +107,28 @@ const STORES = [
   { store:"Depop",  base:"https://www.depop.com/search/?q=", color:"#ff5a4d" },
 ];
 const PRESETS = ["Coffee shop","At a gym","Book store","Dog park","Bar / night out","On campus"];
+
+// Curated always-perfect results for a flawless on-camera demo (no API needed).
+const SAMPLE_OUTFIT = {
+  overallStyle: "Elevated casual streetwear",
+  vibeWords: ["clean","confident","effortless"],
+  items: [
+    { name:"Oversized cream knit sweater", description:"Chunky beige crewneck, relaxed drop-shoulder fit", searchTerms:["oversized cream knit sweater","chunky beige crewneck"] },
+    { name:"Straight-leg dark wash jeans", description:"Relaxed straight-cut denim in deep indigo", searchTerms:["straight leg dark wash jeans","relaxed indigo denim"] },
+    { name:"White leather low-top sneakers", description:"Minimal white leather trainers", searchTerms:["white leather low top sneakers","minimalist white trainers"] },
+    { name:"Layered gold chain necklace", description:"Thin layered gold-tone chains", searchTerms:["layered gold chain necklace","thin gold chain"] },
+  ],
+};
+const SAMPLE_WING = {
+  situationRead: "Relaxed coffee-shop energy — laptops open, easy playlist, nobody rushing. Curiosity lands better than intensity.",
+  openers: [
+    { text:"Real question — is that drink actually good, or just photogenic?", hook:"Playful tease about a shared, visible thing", energy:"playful" },
+    { text:"You look deep in something good. What are you working on?", hook:"Genuine, easy to answer", energy:"genuine" },
+    { text:"I keep seeing everyone order that one. What is it?", hook:"Low-stakes curiosity about the room", energy:"curious" },
+    { text:"This playlist is dangerously good — the shop's or yours?", hook:"Comments on shared ambiance", energy:"playful" },
+    { text:"Mind if I grab the seat by the outlet? My laptop's on 3%.", hook:"Practical, warm, easy reason to talk", energy:"genuine" },
+  ],
+};
 
 const $ = id => document.getElementById(id);
 let keyVal = localStorage.getItem("sw_key") || "";
@@ -225,6 +249,10 @@ function renderWing(a) {
   });
   $("wingOut").innerHTML = html;
 }
+
+// Sample buttons — instant perfect results, no API call.
+$("sampleOutfit").onclick = e => { e.preventDefault(); $("outfitPreview").innerHTML = "<span>Example result ✨</span>"; renderOutfit(SAMPLE_OUTFIT); };
+$("sampleWing").onclick = e => { e.preventDefault(); renderWing(SAMPLE_WING); };
 </script>
 </body>
 </html>

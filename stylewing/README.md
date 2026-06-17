@@ -17,17 +17,21 @@ npm run dev                     # http://localhost:3000
 
 Get an API key at **console.anthropic.com → API Keys**, and add credits under **Plans & Billing**.
 
-## Deploy a live demo (Vercel, free)
+## Deploy a live demo (Vercel, free) — beginner walkthrough
 
-For a shareable `https://` URL — the right way to demo for YC (key stays server-side, works on any phone):
+This gives you a public `https://` link to put in the YC application. The key stays on the server (safe to share), and it works on any phone.
 
-1. Push this repo to GitHub (already done if you're reading this on GitHub).
-2. Go to **vercel.com → Add New → Project** and import the repo.
-3. Set **Root Directory** to `stylewing`.
-4. Under **Environment Variables**, add `ANTHROPIC_API_KEY` = your key.
-5. **Deploy.** You'll get a live URL in ~1 minute.
+1. Go to **vercel.com** and click **Sign Up** → **Continue with GitHub** (use the same GitHub account that owns this repo). Approve the access prompt.
+2. On your Vercel dashboard, click **Add New… → Project**.
+3. Find **`adityasr16/adityasr16`** in the list and click **Import**.
+4. **⚠️ The one step people get wrong:** find **Root Directory**, click **Edit**, and choose the **`stylewing`** folder. (The app lives in that subfolder — if you skip this, the deploy fails.)
+5. Open **Environment Variables** and add one:
+   - **Name:** `ANTHROPIC_API_KEY`
+   - **Value:** your key from console.anthropic.com
+   - Click **Add**.
+6. Click **Deploy** and wait ~1 minute. You'll get a live link like `https://stylewing-xxxx.vercel.app`.
 
-Framework preset (Next.js), build command, and output are auto-detected — no extra config needed.
+Everything else (framework = Next.js, build command, output) is auto-detected — don't change it. After this, any time the `main` branch updates, Vercel redeploys automatically.
 
 ## Zero-setup browser test
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import CameraCapture from '@/components/CameraCapture'
 import OutfitResults from '@/components/OutfitResults'
 import type { OutfitAnalysis } from '@/lib/types'
+import { SAMPLE_OUTFIT } from '@/lib/samples'
 
 export default function OutfitPage() {
   const [loading, setLoading] = useState(false)
@@ -49,6 +50,13 @@ export default function OutfitPage() {
       </p>
 
       <CameraCapture onCapture={handleCapture} loading={loading} label="Scan outfit" />
+
+      <button
+        onClick={() => { setError(null); setLoading(false); setResult(SAMPLE_OUTFIT) }}
+        className="text-zinc-500 hover:text-zinc-300 text-xs underline underline-offset-4 transition-colors"
+      >
+        ✨ See an example result
+      </button>
 
       {error && (
         <div className="w-full max-w-md p-4 rounded-2xl bg-red-900/20 border border-red-800 text-red-400 text-sm text-center">

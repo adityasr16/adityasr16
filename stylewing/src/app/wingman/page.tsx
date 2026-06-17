@@ -5,6 +5,7 @@ import Link from 'next/link'
 import CameraCapture from '@/components/CameraCapture'
 import WingmanResults from '@/components/WingmanResults'
 import type { WingmanAnalysis } from '@/lib/types'
+import { SAMPLE_WINGMAN } from '@/lib/samples'
 
 const SITUATION_PRESETS = [
   { label: 'Coffee shop', emoji: '☕' },
@@ -152,6 +153,13 @@ export default function WingmanPage() {
           )}
         </div>
       )}
+
+      <button
+        onClick={() => { setError(null); setLoading(false); setResult(SAMPLE_WINGMAN) }}
+        className="text-zinc-500 hover:text-zinc-300 text-xs underline underline-offset-4 transition-colors"
+      >
+        ✨ See an example
+      </button>
 
       {loading && (
         <div className="flex items-center gap-3 text-zinc-400 text-sm">
