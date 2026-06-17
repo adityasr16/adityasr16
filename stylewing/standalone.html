@@ -94,8 +94,8 @@
 <script type="module">
 import Anthropic from "https://esm.sh/@anthropic-ai/sdk@0.54.0";
 
-// Best accuracy. For a high-volume free app, "claude-sonnet-4-6" is ~half the cost/latency.
-const MODEL = "claude-opus-4-8";
+// Sonnet 4.6 for a snappy demo (~2x faster, ~half cost). Use "claude-opus-4-8" for max accuracy.
+const MODEL = "claude-sonnet-4-6";
 
 const STORES = [
   { store:"Amazon", base:"https://www.amazon.com/s?k=", color:"#FF9900" },

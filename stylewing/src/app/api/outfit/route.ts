@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { analyzeOutfit } from '@/lib/claude'
 
+// SDK needs the Node runtime (not Edge). 60s is the Vercel Hobby ceiling —
+// ample headroom for a vision call that normally returns in a few seconds.
+export const runtime = 'nodejs'
+export const maxDuration = 60
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()

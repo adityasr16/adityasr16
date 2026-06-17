@@ -16,9 +16,11 @@ function buildStoreLinks(searchTerms: string[]) {
   return STORES.map(({ store, base, color }) => ({ store, url: base + query, color }))
 }
 
-// Best identification accuracy. For a high-volume free app, switching to
-// 'claude-sonnet-4-6' roughly halves cost/latency at slightly lower quality.
-const MODEL = 'claude-opus-4-8'
+// Sonnet 4.6 for the demo: ~2x faster (snappy live demo, stays well under the
+// serverless function timeout) and ~half the cost, with marginal quality loss
+// on outfit ID. Switch to 'claude-opus-4-8' for maximum accuracy if you don't
+// mind the extra latency/cost.
+const MODEL = 'claude-sonnet-4-6'
 
 export async function analyzeOutfit(imageBase64: string, mimeType: string): Promise<OutfitAnalysis> {
   const response = await client.messages.create({
